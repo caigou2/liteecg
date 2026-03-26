@@ -1,0 +1,68 @@
+[
+    {
+        "model": "se_ecgnet",
+        "avg_latency_ms": 20.8155,
+        "params": 16396450,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    },
+    {
+        "model": "bircnn",
+        "avg_latency_ms": 14.838,
+        "params": 4294660,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    },
+    {
+        "model": "resnet",
+        "avg_latency_ms": 10.7026,
+        "params": 8735620,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    },
+    {
+        "model": "deepecgnet",
+        "avg_latency_ms": 1.5982,
+        "params": 439878,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    },
+    {
+        "model": "ldcnn",
+        "avg_latency_ms": 1.2678,
+        "params": 1075351,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    },
+    {
+        "model": "liteecgnet",
+        "avg_latency_ms": 1.9872,
+        "params": 286226,
+        "input_shape": [
+            1,
+            1,
+            720
+        ],
+        "device": "cpu"
+    }
+]
