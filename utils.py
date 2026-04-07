@@ -31,40 +31,33 @@ np.random.seed(SEED)
 ############################################
 # AAMI标准的心跳分类
 # AAMI标准的心跳分类 (5分类: N, S, V, F, Q) 
-AAMI_N = set(['N', 'L', 'R', 'e', 'j'])  # 正常心跳及其变体 (Normal)
-AAMI_SVEB = set(['A', 'a', 'J', 'S'])    # 室上性异位搏动 (SVEB)
-AAMI_VEB = set(['V', 'E'])               # 室性异位搏动 (VEB)
-AAMI_F = set(['F'])                      # 融合搏动 (Fusion of ventricular and normal beat)
-AAMI_Q = set(['/', 'f', 'Q'])            # 未知/起搏心跳 (Paced, fusion of paced and normal, unclassified)
+AAMI_N = set(list("NLR") + ['e','j'])
+AAMI_SVEB = set(['A','a','J','S'])
+AAMI_VEB = set(['V','E'])
 
-# 类别映射字典 (用于将分类映射为数字索引，方便传入 PyTorch 的 Loss 函数)
 SYM2CLS = {
-    0: 'N',      # 正常搏动
-    1: 'SVEB',   # 室上性异位搏动
-    2: 'VEB',    # 室性异位搏动
-    3: 'F',      # 融合搏动
-    4: 'Q',      # 未知/起搏搏动
+    0: 'N',
+    1: 'SVEB',
+    2: 'VEB',
+    3: 'Other',
 }
 
 # 完整的符号转换函数 (对应你前一段代码中的 symbol_to_class)
-def symbol_to_class(sym: str) -> int:
+def symbol_to_class(sym: str) -> Optional[int]:
+    """Map MIT-BIH beat symbol to 4-class label.
+    Returns None for symbols we choose to ignore.
     """
-    将 MIT-BIH 的心跳标注符号转换为 AAMI 标准的 5 分类索引 (0-4)。
-    如果符号不是心跳标注（如节律变化标记 '~', '|', '+' 等），则返回 None。
-    """
-    if sym in AAMI_N:
+    s = sym.strip()
+    if s in AAMI_N:
         return 0
-    elif sym in AAMI_SVEB:
+    if s in AAMI_SVEB:
         return 1
-    elif sym in AAMI_VEB:
+    if s in AAMI_VEB:
         return 2
-    elif sym in AAMI_F:
-        return 3
-    elif sym in AAMI_Q:
-        return 4
-    else:
-        # 过滤掉非心跳的系统标记或噪声标记
-        return None
+    # We include paced 'P', fusion 'F', and others as 'Other'
+    # Common symbols: '/', 'f', 'Q', 'F', 'P', 'x', etc.
+    return 3
+
 ############################################
 #           2. PTB 专用工具                #
 ############################################
